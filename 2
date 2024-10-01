@@ -1,0 +1,34 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import minimize
+
+# Definir la función objetivo: maximizar el total de peticiones procesadas
+def objetivo(x):
+    return -20 * x  # Negamos para convertir a un problema de minimización
+
+# Restricción: no exceder la capacidad máxima del sistema
+def restriccion_capacidad(x):
+    return 400 - 20 * x  # La capacidad no debe exceder 400
+
+# Definir restricciones y límites
+restricciones = [{'type': 'ineq', 'fun': restriccion_capacidad}]
+bounds = [(0, 20)]
+x0 = [10]  # Valor inicial
+
+# Resolver el problema de optimización
+resultado = minimize(objetivo, x0, constraints=restricciones, bounds=bounds)
+x_optimo = resultado.x[0]
+total_peticiones_procesadas = -resultado.fun
+
+# Visualización
+nodos = np.arange(1, 21)
+peticiones = 20 * x_optimo * nodos
+
+plt.plot(nodos, peticiones, marker='o')
+plt.title('Total de Peticiones Procesadas vs Número de Nodos')
+plt.xlabel('Número de Nodos')
+plt.ylabel('Total de Peticiones Procesadas (p/s)')
+plt.axhline(400, color='r', linestyle='--', label='Capacidad máxima (400 p/s)')
+plt.legend()
+plt.grid()
+plt.show()
