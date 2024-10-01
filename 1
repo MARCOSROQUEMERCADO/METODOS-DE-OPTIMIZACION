@@ -1,0 +1,53 @@
+import matplotlib.pyplot as plt
+
+# Definir la función para calcular los datos procesados en función de los lotes y la eficiencia
+def calcular_datos(lotes):
+    memoria_total = 1024  # Memoria total en MB
+    datos_por_lote = memoria_total / lotes
+    
+    # Inicializar la eficiencia
+    if lotes > 5:
+        # Si hay más de 5 lotes, la eficiencia de cada lote extra disminuye un 20%
+        eficiencia = 0.8  # 80% de eficiencia
+    else:
+        eficiencia = 1.0  # 100% de eficiencia
+    
+    # Retorna la cantidad de datos procesados considerando la eficiencia
+    return lotes * datos_por_lote * eficiencia
+
+# Definir los límites
+lote_min = 1
+lote_max = 8
+
+# Listas para almacenar los resultados
+lotes_list = []
+datos_procesados_list = []
+
+# Buscar el número óptimo de lotes
+mejor_lote = lote_min
+max_datos = 0
+
+for lotes in range(lote_min, lote_max + 1):
+    datos_procesados = calcular_datos(lotes)
+    lotes_list.append(lotes)
+    datos_procesados_list.append(datos_procesados)
+    
+    if datos_procesados > max_datos:
+        max_datos = datos_procesados
+        mejor_lote = lotes
+
+# Mostrar el resultado
+print(f"El número óptimo de lotes es: {mejor_lote}")
+print(f"Cantidad máxima de datos procesados: {max_datos} MB")
+
+# Graficar los resultados
+plt.figure(figsize=(10, 6))
+plt.plot(lotes_list, datos_procesados_list, marker='o', linestyle='-', color='b')
+plt.title('Datos Procesados en Función del Número de Lotes')
+plt.xlabel('Número de Lotes')
+plt.ylabel('Datos Procesados (MB)')
+plt.xticks(lotes_list)  # Asegurarse de que todos los lotes sean mostrados en el eje x
+plt.grid()
+plt.axvline(x=mejor_lote, color='r', linestyle='--', label='Número óptimo de lotes')
+plt.legend()
+plt.show()
