@@ -1,0 +1,21 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def max_batch_size():
+    total_energy = 200  # Unidades de energía
+    max_size = 0
+    max_batches = 20  # Asumimos un límite superior razonable
+
+    for x in range(1, max_batches + 1):
+        if x <= 10:
+            energy_used = x
+        else:
+            energy_used = x * 1.1  # 10% more energy
+        
+        if energy_used <= total_energy:
+            max_size = x
+            
+    return max_size
+
+max_size = max_batch_size()
+print(f"Tamaño del lote que maximiza el rendimiento: {max_size}")
