@@ -1,0 +1,17 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def max_storage():
+    budget = 500  # Dólares
+    max_storage = 0
+    max_tb = 100  # Asumimos un límite superior razonable
+
+    for x in range(1, max_tb + 1):
+        cost = 50 + 5 * x
+        if cost <= budget:
+            max_storage = x
+            
+    return max_storage
+
+max_tb = max_storage()
+print(f"Cantidad máxima de datos que se pueden almacenar: {max_tb} TB")
