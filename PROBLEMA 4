@@ -1,0 +1,34 @@
+from scipy.optimize import minimize
+import numpy as np
+import matplotlib.pyplot as plt
+
+def cpu_usage(x):
+    return 2 * x ** 2 + 10 * x
+
+# Restringir el uso de CPU al 80%
+max_cpu = 0.8 * 100  # Asumiendo que 100 es el uso total
+threshold = 10  # Umbral mínimo de peticiones
+
+# Definir las restricciones
+constraints = ({'type': 'ineq', 'fun': lambda x: max_cpu - cpu_usage(x)},  # No exceder uso de CPU
+               {'type': 'ineq', 'fun': lambda x: x - threshold})  # No caer por debajo del umbral
+
+# Minimizar
+res = minimize(cpu_usage, x0=10, constraints=constraints)
+
+print(f"Peticiones por segundo que minimizan el uso de CPU: {res.x[0]:.2f}")
+
+# Graficar
+x_values = np.linspace(1, 20, 100)
+y_values = cpu_usage(x_values)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_values, y_values, label='Uso de CPU (2x² + 10x)', color='blue')
+plt.axhline(y=max_cpu, color='red', linestyle='--', label='Límite de CPU (80%)')
+plt.axvline(x=res.x[0], color='green', linestyle='--', label='Peticiones mínimas')
+plt.title("Minimización del uso de CPU")
+plt.xlabel("Peticiones por segundo (x)")
+plt.ylabel("Uso de CPU")
+plt.legend()
+plt.grid()
+plt.show()
