@@ -1,0 +1,36 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def max_data_processable(limit_time):
+    # Tiempo de ejecución para x datos
+    time = lambda x: 5 * x + 2
+    max_data = 0
+    
+    # Comprobar el número máximo de datos que se pueden procesar
+    for x in range(1, 100):  # Asumimos un límite superior razonable
+        if time(x) <= limit_time:
+            max_data = x
+        else:
+            break
+            
+    return max_data
+
+limit_time = 50  # límite de tiempo en segundos
+max_data = max_data_processable(limit_time)
+print(f"Máximo de datos que puede procesar el script: {max_data}")
+
+# Graficar
+x_values = np.arange(1, 100)
+y_values = [5 * x + 2 for x in x_values]
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_values, y_values, label='Tiempo de ejecución (5x + 2)', color='blue')
+plt.axhline(y=limit_time, color='red', linestyle='--', label='Límite de tiempo (50 s)')
+plt.xlim(0, 20)
+plt.ylim(0, 100)
+plt.title("Tiempo de ejecución del script vs Datos procesables")
+plt.xlabel("Número de datos (x)")
+plt.ylabel("Tiempo (s)")
+plt.legend()
+plt.grid()
+plt.show()
