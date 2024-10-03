@@ -1,0 +1,28 @@
+from scipy.optimize import minimize
+import numpy as np
+import matplotlib.pyplot as plt
+
+def training_time(x):
+    return 1000 / x + 0.1 * x
+
+# Restringir tamaño del lote entre 16 y 128
+bounds = (16, 128)
+
+# Minimizar
+res = minimize(training_time, x0=16, bounds=[bounds])
+
+print(f"Batch size que minimiza el tiempo de entrenamiento: {res.x[0]:.2f}")
+
+# Graficar
+x_values = np.linspace(16, 128, 100)
+y_values = training_time(x_values)
+
+plt.figure(figsize=(10, 6))
+plt.plot(x_values, y_values, label='Tiempo de entrenamiento', color='blue')
+plt.axvline(x=res.x[0], color='green', linestyle='--', label='Batch size óptimo')
+plt.title("Minimización del tiempo de entrenamiento")
+plt.xlabel("Batch size (x)")
+plt.ylabel("Tiempo de entrenamiento T(x)")
+plt.legend()
+plt.grid()
+plt.show()
