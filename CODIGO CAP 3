@@ -1,0 +1,39 @@
+# Importamos las librerías necesarias
+import numpy as np
+
+# Función para calcular el número exacto de operaciones G(n)
+def G(n):
+    return (4 * n**3 + 9 * n**2 - 13 * n) / 6
+
+# Función para calcular la aproximación de orden (2/3)n^3
+def approx_G(n):
+    return (2/3) * n**3
+
+# Función para calcular el error porcentual
+def percent_error(exact, approx):
+    if exact == 0:
+        return 100  # Si el valor exacto es 0, devolvemos 100% de error
+    return abs((exact - approx) / exact) * 100
+
+# i) Calcular el número exacto de operaciones para n = 412
+n = 412
+exact_operations = G(n)
+print(f"El número exacto de operaciones para n = {n} es: {exact_operations:.2f}")
+
+# ii) Calcular la aproximación de (2/3)n^3 y el error porcentual
+approx_operations = approx_G(n)
+error = percent_error(exact_operations, approx_operations)
+print(f"La aproximación de (2/3)n^3 para n = {n} es: {approx_operations:.2f}")
+print(f"El error porcentual de la aproximación es: {error:.2f}%")
+
+# iii) Encontrar el valor de n tal que el error sea menor al 1%
+n = 1
+while True:
+    exact_operations = G(n)
+    approx_operations = approx_G(n)
+    error = percent_error(exact_operations, approx_operations)
+    if error < 1:  # Buscamos el primer n con error menor al 1%
+        break
+    n += 1
+
+print(f"El primer valor de n para el cual el error es menor al 1% es: {n}")
